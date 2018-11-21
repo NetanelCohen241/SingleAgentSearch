@@ -11,8 +11,8 @@ public class Main
 	{
 		
 		System.out.println("Start!");
-		//task1();
-		//task2();
+		task1();
+		task2();
 		//task3();
 		//task4();
 		//task5();
@@ -85,6 +85,7 @@ public class Main
 		{
 			long			totalTime = 0;
 			List<String> 	instances = getInstances(instancesType);
+
 			for (String instance : instances)
 			{
 				System.out.println("---- " + instance.substring(instance.indexOf("tile_")) + " ----");

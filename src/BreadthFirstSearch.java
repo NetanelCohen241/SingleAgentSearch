@@ -1,8 +1,15 @@
+import com.sun.jmx.remote.internal.ArrayQueue;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
 
 public class BreadthFirstSearch  extends ASearch
 {
 	// Define lists here ...
-	
+	List<BlindSearchNode> openList;
+	List<BlindSearchNode> closeList;
+
 	@Override
 	public String getSolverName() 
 	{
@@ -10,10 +17,7 @@ public class BreadthFirstSearch  extends ASearch
 	}
 
 	@Override
-	public ASearchNode createSearchRoot
-	(
-		IProblemState problemState
-	) 
+	public ASearchNode createSearchRoot(IProblemState problemState)
 	{
 		ASearchNode newNode = new BlindSearchNode(problemState);
 		return newNode;
@@ -22,64 +26,64 @@ public class BreadthFirstSearch  extends ASearch
 	@Override
 	public void initLists() 
 	{
+	    openList= new ArrayList<>();
+	    closeList= new ArrayList<>();
 
 	}
 
 	@Override
-	public ASearchNode getOpen
-	(
-		ASearchNode node
-	) 
+	public ASearchNode getOpen(ASearchNode node)
 	{
+	    ASearchNode ans;
+        for (BlindSearchNode anOpenList : openList) {
+            ans = anOpenList;
+            if (ans.equals(node))
+                return ans;
+        }
 		return null;
 	}
 
 	@Override
-	public boolean isOpen
-	(
-		ASearchNode node
-	) 
+	public boolean isOpen(ASearchNode node)
 	{
-		return false;
+		return openList.contains(node);
 	}
 	
 	@Override
-	public boolean isClosed
-	(
-		ASearchNode node
-	) 
+	public boolean isClosed(ASearchNode node)
 	{
-		return false;
+		return closeList.contains(node);
 	}
 
 	@Override
-	public void addToOpen
-	(
-		ASearchNode node
-	) 
+	public void addToOpen(ASearchNode node)
 	{
-		
+		openList.add((BlindSearchNode) node);
 	}
 
 	@Override
-	public void addToClosed
-	(
-		ASearchNode node
-	) 
+	public void addToClosed(ASearchNode node)
 	{
- 
-	}
+        closeList.add((BlindSearchNode) node);
+        openList.remove(node);
+    }
 
 	@Override
 	public int openSize() 
 	{
-		return 0;
+		return openList.size();
 	}
 
 	@Override
 	public ASearchNode getBest() 
 	{
-		return null;
+	    ASearchNode min=openList.get(0);
+        for (int i = 1; i <openList.size() ; i++) {
+            if(min.getF()>openList.get(i).getF())
+                min=openList.get(i);
+
+        }
+        return min;
 	}
 
 	
