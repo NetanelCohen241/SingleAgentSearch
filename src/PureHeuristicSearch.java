@@ -1,8 +1,11 @@
+import java.util.ArrayList;
+import java.util.List;
 
 public class PureHeuristicSearch  extends ASearch
 {
 	// Define lists here ...
-	
+	private List<BlindSearchNode> openList;
+	private List<BlindSearchNode> closeList;
 	@Override
 	public String getSolverName() 
 	{
@@ -22,7 +25,8 @@ public class PureHeuristicSearch  extends ASearch
 	@Override
 	public void initLists() 
 	{
-
+		openList= new ArrayList<>();
+		closeList= new ArrayList<>();
 	}
 
 	@Override
@@ -31,57 +35,56 @@ public class PureHeuristicSearch  extends ASearch
 		ASearchNode node
 	) 
 	{
+		ASearchNode ans;
+		for (BlindSearchNode openNode : openList) {
+			ans = openNode;
+			if (ans.equals(node))
+				return ans;
+		}
 		return null;
 	}
 
 	@Override
-	public boolean isOpen
-	(
-		ASearchNode node
-	) 
+	public boolean isOpen(ASearchNode node)
 	{
-		return false;
-	}
-	
-	@Override
-	public boolean isClosed
-	(
-		ASearchNode node
-	) 
-	{
-		return false;
-	}
-
-	
-
-	@Override
-	public void addToOpen
-	(
-		ASearchNode node
-	) 
-	{
-
+		return openList.contains(node);
 	}
 
 	@Override
-	public void addToClosed
-	(
-		ASearchNode node
-	) 
+	public boolean isClosed(ASearchNode node)
 	{
-
+		return closeList.contains(node);
 	}
 
 	@Override
-	public int openSize() 
+	public void addToOpen(ASearchNode node)
 	{
-		return 0;
+		openList.add((BlindSearchNode) node);
 	}
 
 	@Override
-	public ASearchNode getBest() 
+	public void addToClosed(ASearchNode node)
 	{
-		return null;
+		closeList.add((BlindSearchNode) node);
+		openList.remove(node);
+	}
+
+	@Override
+	public int openSize()
+	{
+		return openList.size();
+	}
+
+	@Override
+	public ASearchNode getBest()
+	{
+		ASearchNode min=openList.get(0);
+		for (int i = 1; i <openList.size() ; i++) {
+			if(min.getH()>openList.get(i).getH())
+				min=openList.get(i);
+
+		}
+		return min;
 	}
 
 }

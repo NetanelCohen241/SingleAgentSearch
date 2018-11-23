@@ -7,8 +7,8 @@ import java.util.Queue;
 public class BreadthFirstSearch  extends ASearch
 {
 	// Define lists here ...
-	List<BlindSearchNode> openList;
-	List<BlindSearchNode> closeList;
+	private List<BlindSearchNode> openList;
+	private List<BlindSearchNode> closeList;
 
 	@Override
 	public String getSolverName() 
@@ -35,8 +35,8 @@ public class BreadthFirstSearch  extends ASearch
 	public ASearchNode getOpen(ASearchNode node)
 	{
 	    ASearchNode ans;
-        for (BlindSearchNode anOpenList : openList) {
-            ans = anOpenList;
+        for (BlindSearchNode openNode : openList) {
+            ans = openNode;
             if (ans.equals(node))
                 return ans;
         }

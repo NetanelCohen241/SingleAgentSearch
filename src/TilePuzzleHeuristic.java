@@ -1,3 +1,4 @@
+import java.util.List;
 
 public class TilePuzzleHeuristic implements IHeuristic
 {
@@ -8,7 +9,10 @@ public class TilePuzzleHeuristic implements IHeuristic
 		IProblemState problemState
 	) 
 	{
+		List<IProblemState> states=problemState.getNeighborStates();
+
 		return 0;
+
 	}
 	
 }
