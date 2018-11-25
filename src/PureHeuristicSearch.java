@@ -4,8 +4,8 @@ import java.util.List;
 public class PureHeuristicSearch  extends ASearch
 {
 	// Define lists here ...
-	private List<BlindSearchNode> openList;
-	private List<BlindSearchNode> closeList;
+	private List<HeuristicSearchNode> openList;
+	private List<HeuristicSearchNode> closeList;
 	@Override
 	public String getSolverName() 
 	{
@@ -59,13 +59,13 @@ public class PureHeuristicSearch  extends ASearch
 	@Override
 	public void addToOpen(ASearchNode node)
 	{
-		openList.add((BlindSearchNode) node);
+		openList.add((HeuristicSearchNode) node);
 	}
 
 	@Override
 	public void addToClosed(ASearchNode node)
 	{
-		closeList.add((BlindSearchNode) node);
+		closeList.add((HeuristicSearchNode) node);
 		openList.remove(node);
 	}
 

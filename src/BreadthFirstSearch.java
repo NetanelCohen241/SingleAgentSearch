@@ -77,13 +77,7 @@ public class BreadthFirstSearch  extends ASearch
 	@Override
 	public ASearchNode getBest() 
 	{
-	    ASearchNode min=openList.get(0);
-        for (int i = 1; i <openList.size() ; i++) {
-            if(min.getF()>openList.get(i).getF())
-                min=openList.get(i);
-
-        }
-        return min;
+	    return openList.get(0);
 	}
 
 	

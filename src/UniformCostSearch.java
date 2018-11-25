@@ -74,7 +74,7 @@ public class UniformCostSearch extends ASearch {
     public ASearchNode getBest(){
         ASearchNode min=openList.get(0);
         for (int i = 1; i <openList.size() ; i++) {
-            if(min.getF()>openList.get(i).getF())
+            if(min.getG()>openList.get(i).getG())
                 min=openList.get(i);
 
         }

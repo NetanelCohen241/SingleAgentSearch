@@ -1,11 +1,13 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class AStarSearch   extends ASearch
 {
 	// Define lists here ...
-	private List<BlindSearchNode> openList;
-	private List<BlindSearchNode> closeList;
+	private Queue<HeuristicSearchNode> openList;
+	private List<HeuristicSearchNode> closeList;
 	@Override
 	public String getSolverName() 
 	{
@@ -25,7 +27,7 @@ public class AStarSearch   extends ASearch
 	@Override
 	public void initLists()
 	{
-		openList= new ArrayList<>();
+		openList= new PriorityQueue<HeuristicSearchNode>((o1, o2) -> (int)(o1.getF()-o2.getF()));
 		closeList= new ArrayList<>();
 
 	}
@@ -33,12 +35,9 @@ public class AStarSearch   extends ASearch
 	@Override
 	public ASearchNode getOpen(ASearchNode node)
 	{
-		ASearchNode ans;
-		for (BlindSearchNode openNode : openList) {
-			ans = openNode;
-			if (ans.equals(node))
-				return ans;
-		}
+
+		if(isOpen(node))
+			return node;
 		return null;
 	}
 
@@ -57,14 +56,14 @@ public class AStarSearch   extends ASearch
 	@Override
 	public void addToOpen(ASearchNode node)
 	{
-		openList.add((BlindSearchNode) node);
+		openList.add((HeuristicSearchNode) node);
 	}
 
 	@Override
 	public void addToClosed(ASearchNode node)
 	{
-		closeList.add((BlindSearchNode) node);
-		openList.remove(node);
+		closeList.add((HeuristicSearchNode) node);
+//		openList.remove(node);
 	}
 
 	@Override
@@ -75,13 +74,8 @@ public class AStarSearch   extends ASearch
 
 	@Override
 	public ASearchNode getBest(){
-		ASearchNode min=openList.get(0);
-		for (int i = 1; i <openList.size() ; i++) {
-			if(min.getF()>openList.get(i).getF())
-				min=openList.get(i);
 
-		}
-		return min;
+		return openList.poll();
 	}
 
 }
