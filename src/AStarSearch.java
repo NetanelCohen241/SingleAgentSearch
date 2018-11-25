@@ -1,25 +1,19 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 public class AStarSearch   extends ASearch
 {
 	// Define lists here ...
 	private Queue<HeuristicSearchNode> openList;
-	private List<HeuristicSearchNode> closeList;
+	private Dictionary<String,ASearchNode> closeList;
 	@Override
-	public String getSolverName() 
+	public String getSolverName()
 	{
 		return "AStar";
 	}
-	
+
 	@Override
-	public ASearchNode createSearchRoot
-	(
-		IProblemState problemState
-	) 
-	{	
+	public ASearchNode createSearchRoot(IProblemState problemState)
+	{
 		ASearchNode newNode = new HeuristicSearchNode(problemState);
 		return newNode;
 	}
@@ -28,29 +22,46 @@ public class AStarSearch   extends ASearch
 	public void initLists()
 	{
 		openList= new PriorityQueue<HeuristicSearchNode>((o1, o2) -> (int)(o1.getF()-o2.getF()));
-		closeList= new ArrayList<>();
+		closeList= new Hashtable<>();
 
 	}
 
 	@Override
 	public ASearchNode getOpen(ASearchNode node)
 	{
+        for (HeuristicSearchNode s:openList) {
+            if(s.equals(node))
+                return node;
 
-		if(isOpen(node))
-			return node;
+        }
 		return null;
 	}
 
 	@Override
 	public boolean isOpen(ASearchNode node)
 	{
-		return openList.contains(node);
+        for (HeuristicSearchNode s:openList) {
+            if(s.equals(node))
+                return true;
+
+        }
+        return false;
 	}
 
 	@Override
 	public boolean isClosed(ASearchNode node)
 	{
-		return closeList.contains(node);
+	    String an=node._currentProblemState.toString();
+	    ASearchNode a= closeList.get(an);
+	    if(a==null)
+	        return false;
+	    return true;
+//        for (HeuristicSearchNode s:closeList) {
+//            if(s.equals(node))
+//                return true;
+//
+//        }
+//        return false;
 	}
 
 	@Override
@@ -62,8 +73,9 @@ public class AStarSearch   extends ASearch
 	@Override
 	public void addToClosed(ASearchNode node)
 	{
-		closeList.add((HeuristicSearchNode) node);
-//		openList.remove(node);
+//		closeList.add((HeuristicSearchNode) node);
+       String a=node._currentProblemState.toString();
+	   closeList.put(a,node);
 	}
 
 	@Override
